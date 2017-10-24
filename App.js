@@ -9,7 +9,9 @@ import {
   Platform,
   StyleSheet,
   Text,
-  View
+  View,
+  TouchableHighlight,
+  AsyncStorage
 } from 'react-native';
 
 const instructions = Platform.select({
