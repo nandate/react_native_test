@@ -13,6 +13,7 @@ import {
   AsyncStorage,
   TextInput,
   ActivityIndicator,
+  ListView
 } from 'react-native';
 import {
   Actions,
@@ -28,11 +29,14 @@ export default class App extends Component{
       isLoggenIn: "",
       showProgress: false,
       accessToken: "",
+      dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     }
+
   }
 
   componentWillMount(){
     this.getToken();
+    this.getProblems();
   }
 
   async getToken(){
@@ -46,6 +50,18 @@ export default class App extends Component{
     }catch(error){
       console.log("Something went wrong");
       Actions.Login();
+    }
+  }
+
+  async getProblems(){
+    try{
+      let response = await fetch('http://localhost:3000/api/v1/problems/');
+      let res = await response.json();
+      console.log(res);
+      let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+      this.setState({ dataSource: this.state.dataSource.cloneWithRows(res) });
+    }catch(error){
+      console.log("error: " + error);
     }
   }
 
@@ -99,6 +115,13 @@ export default class App extends Component{
         {flashMessage}
         <Text style={ styles.title }> Welcome User </Text>
         <Text style={ styles.text }> Your new token is { this.state.accessToken }</Text>
+
+        <ListView
+          dataSource={ this.state.dataSource }
+          renderRow={ (rowData) =>
+            <Text>{ rowData.id }{ rowData.content }</Text>
+          }
+        />
 
         <TouchableHighlight onPress={ this.onLogout.bind(this) } style={ styles.button }>
           <Text style={ styles.buttonText }>
