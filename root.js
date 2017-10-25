@@ -40,7 +40,7 @@ export default class Root extends Component{
       let response = await fetch('http://localhost:3000/api/v1/verify?session%5Baccess_token%5D='+accessToken);
       let res = await response.text();
       if(response.status >= 200 && response.status < 300){
-        navigate('App');
+        Actions.App();
       }else{
         let error = res;
         throw error;

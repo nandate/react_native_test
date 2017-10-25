@@ -6,34 +6,105 @@
 
 import React, { Component } from 'react';
 import {
-  Platform,
   StyleSheet,
   Text,
   View,
   TouchableHighlight,
-  AsyncStorage
+  AsyncStorage,
+  TextInput,
+  ActivityIndicator,
 } from 'react-native';
+import {
+  Actions,
+} from 'react-native-router-flux';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+const ACCESS_TOKEN = 'access_token';
 
-export default class App extends Component<{}> {
+export default class App extends Component{
+  constructor(props){
+    super(props);
+
+    this.state = {
+      isLoggenIn: "",
+      showProgress: false,
+      accessToken: "",
+    }
+  }
+
+  componentWillMount(){
+    this.getToken();
+  }
+
+  async getToken(){
+    try{
+      let accessToken = await AsyncStorage.getItem(ACCESS_TOKEN);
+      if(!accessToken){
+        Actions.Login();
+      }else{
+        this.setState({ accessToken: accessToken});
+      }
+    }catch(error){
+      console.log("Something went wrong");
+      Actions.Login();
+    }
+  }
+
+  async deleteToken(){
+    try{
+      await AsyncStorage.removeItem(ACCESS_TOKEN);
+      Actions.Root();
+    }catch(error){
+      console.log("Something went wrong");
+    }
+  }
+
+  onLogout(){
+    this.setState({showProgress: true});
+    this.deleteToken();
+  }
+
+  comfirmDelete(){
+
+  }
+
+  async onDelete(){
+    let access_token = this.state.accessToken;
+    try{
+      let response = await fetch('http://localhost:3000/api/v1/users/' + access_token,{
+        method: 'DELETE'
+      });
+      let res = await response.text();
+      if(response.status >= 200 && response.status < 300){
+        console.log("Success sir: " + res);
+        Actions.Root();
+      }else{
+        let error = res;
+        throw error;
+      }
+    }catch(error){
+      console.log("error: " + error);
+    }
+  }
+
   render() {
+    let flashMessage;
+    if (this.props.flash) {
+       flashMessage = <Text style={styles.flash}>{this.props.flash}</Text>
+    } else {
+       flashMessage = null
+    }
+
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
+        {flashMessage}
+        <Text style={ styles.title }> Welcome User </Text>
+        <Text style={ styles.text }> Your new token is { this.state.accessToken }</Text>
+
+        <TouchableHighlight onPress={ this.onLogout.bind(this) } style={ styles.button }>
+          <Text style={ styles.buttonText }>
+            Logout
+          </Text>
+        </TouchableHighlight>
       </View>
     );
   }
@@ -45,15 +116,36 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+    padding: 10
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  title: {
+    fontSize: 25,
+    marginTop: 15,
+    marginBottom: 15
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  text: {
+    marginBottom: 30
   },
+  button: {
+    height: 50,
+    backgroundColor: 'red',
+    alignSelf: 'stretch',
+    marginTop: 10,
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    fontSize: 22,
+    color: '#FFF',
+    alignSelf: 'center'
+  },
+  flash: {
+    height: 40,
+    backgroundColor: '#00ff00',
+    padding: 10,
+    alignSelf: 'center',
+  },
+  loader: {
+    marginTop: 20
+  }
 });
