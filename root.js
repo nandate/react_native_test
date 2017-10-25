@@ -7,7 +7,10 @@ import {
   TouchableHighlight,
   AsyncStorage
 } from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import {
+  Actions,
+} from 'react-native-router-flux';
+
 
 const ACCESS_TOKEN = 'access_token';
 
@@ -16,10 +19,6 @@ export default class Root extends Component{
   componentWillMount(){
     this.getToken();
   }
-
-  static navigationOptions = {
-    title: "root"
-  };
 
   async getToken(){
     try{
@@ -38,10 +37,10 @@ export default class Root extends Component{
     let accessToken = token;
 
     try{
-      let response = await fetch('http://localhost:3000');
+      let response = await fetch('http://localhost:3000/api/v1/verify?session%5Baccess_token%5D='+accessToken);
       let res = await response.text();
       if(response.status >= 200 && response.status < 300){
-        this.navigate('app');
+        navigate('App');
       }else{
         let error = res;
         throw error;
@@ -51,14 +50,13 @@ export default class Root extends Component{
     }
   }
   render(){
-    const { navigate } = this.props.navigation;
     return(
       <View style={ styles.container }>
         <Text style={ styles.title }> Welcome Friend </Text>
-        <TouchableHighlight  onPress={()=> navigate('Register')} style={ styles.button}>
+        <TouchableHighlight  onPress={ Actions.Register } style={ styles.button}>
           <Text style={ styles.buttonText }>Register</Text>
         </TouchableHighlight>
-        <TouchableHighlight  onPress={()=> navigate('Login')} style={ styles.button}>
+        <TouchableHighlight  onPress={ Actions.Login } style={ styles.button}>
           <Text style={ styles.buttonText }>Login</Text>
         </TouchableHighlight>
       </View>

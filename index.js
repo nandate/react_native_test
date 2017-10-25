@@ -7,26 +7,29 @@ import {
   View
 } from 'react-native';
 import {
-  StackNavigator,
-} from 'react-navigation';
+  Scene,
+  Router,
+  Actions
+} from 'react-native-router-flux';
 
 import App from './App';
 import Root from './root';
 import Login from './login';
 import Register from './register';
 
-export const BasicApp = StackNavigator({
-  Root: { screen: Root},
-  Login: { screen: Login},
-  Register: { screen: Register}
-});
-
-class react_proto extends Component{
+export default class react_proto extends Component{
   render(){
     return(
-      <Text>Hello</Text>
-    );
+      <Router>
+        <Scene key ="root">
+          <Scene key="Root" initial component={Root} title="root" />
+          <Scene key="Login" component={Login} title="Login" />
+          <Scene key="Register" component={Register} title="Register" />
+          <Scene key="App" component={App} title="Home" />
+        </Scene>
+      </Router>
+    )
   }
 }
 
-AppRegistry.registerComponent('react_proto', () => BasicApp);
+AppRegistry.registerComponent('react_proto', () => react_proto);

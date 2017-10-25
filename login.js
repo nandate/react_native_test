@@ -7,6 +7,9 @@ import {
   Text,
   View
 } from 'react-native';
+import {
+  Actions,
+} from 'react-native-router-flux';
 
 const ACCESS_TOKEN = 'access_token';
 
@@ -34,11 +37,11 @@ export default class Login extends Component{
   async onLoginPressed(){
     this.setState({ showProgress: true });
     try{
-      let response = await fetch('http://localhost:3000',{
+      let response = await fetch('http://localhost:3000/api/v1/login',{
         method: 'POST',
-        header: {
+        headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           session:{
@@ -52,7 +55,7 @@ export default class Login extends Component{
         let accessToken = res;
         console.log(accessToken);
         this.storeToken(accessToken);
-
+        Actions.App();
       }else{
         let error = res;
         throw error;
