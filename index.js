@@ -16,6 +16,7 @@ import App from './App';
 import Root from './root';
 import Login from './login';
 import Register from './register';
+import Mypage from './mypage';
 
 export default class react_proto extends Component{
   render(){
@@ -26,6 +27,7 @@ export default class react_proto extends Component{
           <Scene key="Login" component={Login} title="Login" />
           <Scene key="Register" component={Register} title="Register" />
           <Scene key="App" component={App} title="Home" />
+          <Scene key="Mypage" component={Mypage} title="Mypage" />
         </Scene>
       </Router>
     )
