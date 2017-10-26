@@ -58,6 +58,12 @@ export default class Mypage extends Component{
         </Text>
         <Text>{ this.state.name }</Text>
         <Text>{ this.state.email }</Text>
+
+        <TouchableHighlight onPress={ Actions.Add_product } style={styles.button}>
+          <Text style={ styles.buttonText }>
+            Add_product
+          </Text>
+        </TouchableHighlight>
       </View>
     );
   }
