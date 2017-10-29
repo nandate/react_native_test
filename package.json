@@ -10,6 +10,7 @@
     "form-data": "^2.3.1",
     "react": "16.0.0-beta.5",
     "react-native": "0.49.3",
+    "react-native-imagepicker": "^2.0.0",
     "react-native-router-flux": "^4.0.0-beta.22",
     "react-navigation": "^1.0.0-beta.15"
   },

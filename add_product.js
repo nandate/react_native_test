@@ -11,12 +11,15 @@ import {
   Actions,
 } from 'react-native-router-flux';
 
+
+const ACCESS_TOKEN = 'access_token';
+
 export default class Add_product extends Component{
   constructor(props){
     super(props);
     this.state = {
       name: "",
-      image: "https://www.apple.com/ac/structured-data/images/knowledge_graph_logo.png?201707261039",
+      image: "",
       term: "",
       region: "",
     }
@@ -24,14 +27,23 @@ export default class Add_product extends Component{
 
   async upload_product(){
     let formData = new FormData();
+    let access_token = await AsyncStorage.getItem(ACCESS_TOKEN)
     formData.append('name', this.state.name);
-    formData.append('image', this.state.image);
+    formData.append('image', {
+      uri: 'https://firebasestorage.googleapis.com/v0/b/mikke-d5d0a.appspot.com/o/141select_logo.png?alt=media&token=034612a9-9a26-412c-a9cc-07915de78ad5',
+      type: 'image/png',
+      name: 'image.png'
+    });
     formData.append('term', this.state.term);
     formData.append('region', this.state.region);
+    formData.append('access_token', access_token);
+    console.log(formData);
     fetch('http://localhost:3000/api/v1/products',{
       method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'multipart/form-data; boundary=05329b89-39a0-4035-8cc3-d76e99a00ae8',
+        'accept-encoding': 'gzip',
+        'user-agent': 'okhttp/3.6.0'
       },
       body: formData
     });

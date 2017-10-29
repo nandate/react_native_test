@@ -13,7 +13,8 @@ import {
   AsyncStorage,
   TextInput,
   ActivityIndicator,
-  ListView
+  ListView,
+  Image
 } from 'react-native';
 import {
   Actions,
@@ -36,7 +37,7 @@ export default class App extends Component{
 
   componentWillMount(){
     this.getToken();
-    //this.getProblems();
+    this.getProblems();
   }
 
   async getToken(){
@@ -53,18 +54,20 @@ export default class App extends Component{
     }
   }
 
-  /*async getProblems(){
+  async getProblems(){
     try{
-      let response = await fetch('http://localhost:3000/api/v1/problems/');
+      let response = await fetch('http://localhost:3000/api/v1/products/');
+      console.log(response);
+      console.log(response.typeof);
       let res = await response.json();
       console.log(res);
       let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
       this.setState({ dataSource: this.state.dataSource.cloneWithRows(res) });
+      console.log(this.state.dataSource);
     }catch(error){
       console.log("error: " + error);
     }
   }
-  */
 
   async deleteToken(){
     try{
@@ -100,6 +103,25 @@ export default class App extends Component{
     }
   }
 
+  renderRow(rowData){
+    return (
+
+      <TouchableHighlight onPress = { Actions.Mypage }>
+        <View>
+          <Text>{rowData.name}</Text>
+          <Image
+            source={{uri: 'http://2b1f8912.ngrok.io' + rowData.image.url}}
+          />
+
+          <Text>{rowData.term}</Text>
+          <Text>{rowData.region}</Text>
+          <Text>{rowData.description}</Text>
+        </View>
+      </TouchableHighlight>
+
+    );
+  }
+
   render() {
     let flashMessage;
     if (this.props.flash) {
@@ -113,6 +135,16 @@ export default class App extends Component{
         {flashMessage}
         <Text style={ styles.title }> Welcome User </Text>
         <Text style={ styles.text }> Your new token is { this.state.accessToken }</Text>
+
+        <ListView
+           dataSource={ this.state.dataSource }
+           renderRow={ this.renderRow }
+         />
+
+         <Image
+           style={{width: 50, height: 50}}
+           source={{uri: 'http://2b1f8912.ngrok.io/uploads/product/image/7/image.png'}}
+         />
 
 
         <TouchableHighlight onPress={ this.onLogout.bind(this) } style={ styles.button }>
