@@ -16,11 +16,18 @@ import {
   ListView,
   Image
 } from 'react-native';
+
+import {
+  ListItem,
+  List
+} from 'native-base';
+
 import {
   Actions,
 } from 'react-native-router-flux';
 
 const ACCESS_TOKEN = 'access_token';
+const ID = 'id';
 
 export default class App extends Component{
   constructor(props){
@@ -30,9 +37,22 @@ export default class App extends Component{
       isLoggenIn: "",
       showProgress: false,
       accessToken: "",
-      dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
+      dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
+      id: ""
     }
 
+  }
+
+  storeToken(responseData){
+    AsyncStorage.setItem(ID, responseData, (err)=>{
+      if(err){
+        console.log("an error");
+        throw err;
+      }
+      console.log("success");
+    }).catch((err)=>{
+      console.log("error is: " + err);
+    });
   }
 
   componentWillMount(){
@@ -103,21 +123,25 @@ export default class App extends Component{
     }
   }
 
+  goProducts(rowData){
+    this.setState({ id: rowData.id });
+    Actions.Product();
+  }
+
   renderRow(rowData){
     return (
-
-      <TouchableHighlight onPress = { Actions.Mypage }>
         <View>
-          <Text>{rowData.name}</Text>
+          <Text>name:{rowData.name}</Text>
           <Image
             source={{uri: 'http://2b1f8912.ngrok.io' + rowData.image.url}}
           />
 
-          <Text>{rowData.term}</Text>
-          <Text>{rowData.region}</Text>
-          <Text>{rowData.description}</Text>
+          <Text>term:{rowData.term}</Text>
+          <Text>region:{rowData.region}</Text>
+          <Text>description:{rowData.description}</Text>
+          <Text>-----------------------------------------</Text>
+
         </View>
-      </TouchableHighlight>
 
     );
   }
@@ -138,12 +162,21 @@ export default class App extends Component{
 
         <ListView
            dataSource={ this.state.dataSource }
-           renderRow={ this.renderRow }
-         />
+           renderRow={ (rowData)=>
+             <ListItem button onPress={()=> { this.goProducts(rowData) } }>
+             <View>
+               <Text>name:{rowData.name}</Text>
+               <Image
+                 source={{uri: 'http://2b1f8912.ngrok.io' + rowData.image.url}}
+               />
 
-         <Image
-           style={{width: 50, height: 50}}
-           source={{uri: 'http://2b1f8912.ngrok.io/uploads/product/image/7/image.png'}}
+               <Text>term:{rowData.term}</Text>
+               <Text>region:{rowData.region}</Text>
+               <Text>description:{rowData.description}</Text>
+
+             </View>
+             </ListItem>
+           }
          />
 
 
