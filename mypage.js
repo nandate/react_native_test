@@ -50,25 +50,6 @@ export default class Mypage extends Component{
     }
   }
 
-  async rent1(){
-    let access_token = await AsyncStorage.getItem(ACCESS_TOKEN);
-    try{
-      let response = await fetch('http://localhost:3000/api/v1/products/4/rent',{
-        method: 'PATCH',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          access_token: access_token
-        })
-      });
-    }catch(error){
-
-    }
-
-  }
-
   render(){
     return(
       <View style={ styles.container }>
@@ -84,11 +65,6 @@ export default class Mypage extends Component{
           </Text>
         </TouchableHighlight>
 
-        <TouchableHighlight onPress={ this.rent1.bind(this) } style={styles.button}>
-          <Text style={ styles.buttonText }>
-            rent 1
-          </Text>
-        </TouchableHighlight>
       </View>
     );
   }

@@ -32,7 +32,7 @@ export default class Product extends Component{
       showProgress: false,
       id: "",
       name: "",
-      image_url: "",
+      image: "",
       term: "",
       region: "",
       description: ""
@@ -63,11 +63,12 @@ export default class Product extends Component{
     }
   }
 
-  async rent(product_id){
+  async rent(){
     console.log("rent!");
     let access_token = await AsyncStorage.getItem(ACCESS_TOKEN);
+    let product_id = this.props.product_id
     try{
-      let response = await fetch('http://localhost:3000/api/v1/products/' + id + '/rent',{
+      let response = await fetch('http://localhost:3000/api/v1/products/' + product_id + '/rent',{
         method: 'PATCH',
         headers: {
           'Accept': 'application/json',
@@ -89,7 +90,7 @@ export default class Product extends Component{
         <Text>{this.state.name}</Text>
         <Image
           style={{width: 300, height: 200}}
-          source={{uri: 'http://localhost:3000' + this.state.image_url}}
+          source={{uri: 'http://localhost:3000' + this.state.image.url}}
         />
         <Text>{this.state.term}</Text>
         <Text>{this.state.region}</Text>
