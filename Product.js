@@ -21,21 +21,51 @@ import {
 
 
 const ACCESS_TOKEN = 'access_token';
-const ID = 'id';
 
 export default class Product extends Component{
   constructor(props){
     super(props);
 
     this.state = {
-      isLoggenIn: "",
-      showProgress: false,
       accessToken: "",
-      nextid: this.props.nextid
+      products_id: this.props.id,
+      showProgress: false,
+      id: "",
+      name: "",
+      image_url: "",
+      term: "",
+      region: "",
+      description: ""
     }
   }
 
-  async rent(){
+  componentWillMount(){
+    console.log(this.props.id);
+    console.log(this.state.id);
+    this.fetchProductData();
+  }
+
+  async fetchProductData(){
+    let product_id = this.props.id;
+    try{
+      let response = await fetch('http://localhost:3000/api/v1/products/' + product_id);
+      let res = await response.text();
+      if(response.status >= 200 && response.status < 300){
+        let productData = JSON.parse(res);
+        for(let data in productData){
+          console.log("data is: " + data);
+          this.setState({[data]:productData[data]});
+        }
+      }else{
+        let error = res;
+        throw err;
+      }
+    }catch(error){
+      console.log(error);
+    }
+  }
+
+  async rent(product_id){
     console.log("rent!");
     let access_token = await AsyncStorage.getItem(ACCESS_TOKEN);
     try{
@@ -58,9 +88,15 @@ export default class Product extends Component{
   render(){
     return(
       <View>
-        <Text>{this.state.nextid}</Text>
+        <Text>{this.state.product_id}</Text>
+        <Text>{this.state.id}</Text>
+        <Text>{this.state.name}</Text>
+        <Text>{this.state.image_url}</Text>
+        <Text>{this.state.term}</Text>
+        <Text>{this.state.region}</Text>
+        <Text>{this.state.description}</Text>
 
-        <TouchableHighlight onPress={ this.rent.bind()} style={styles.button}>
+        <TouchableHighlight style={styles.button}>
           <Text style={ styles.buttonText }>
             rent
           </Text>
@@ -108,5 +144,13 @@ const styles = StyleSheet.create({
   },
   loader: {
     marginTop: 20
+  },
+  title: {
+    fontSize: 25,
+    marginTop: 15,
+    marginBottom: 15
+  },
+  text: {
+    marginBottom: 30
   }
 });

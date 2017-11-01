@@ -27,7 +27,6 @@ import {
 } from 'react-native-router-flux';
 
 const ACCESS_TOKEN = 'access_token';
-const ID = 'id';
 
 export default class App extends Component{
   constructor(props){
@@ -57,7 +56,7 @@ export default class App extends Component{
 
   componentWillMount(){
     this.getToken();
-    this.getProblems();
+    this.getProducts();
   }
 
   async getToken(){
@@ -74,7 +73,7 @@ export default class App extends Component{
     }
   }
 
-  async getProblems(){
+  async getProducts(){
     try{
       let response = await fetch('http://localhost:3000/api/v1/products/');
       console.log(response);
@@ -125,6 +124,7 @@ export default class App extends Component{
 
   goProducts(rowData){
     this.setState({ id: rowData.id });
+    console.log(this.state.id);
     Actions.Product();
   }
 
@@ -139,7 +139,6 @@ export default class App extends Component{
           <Text>term:{rowData.term}</Text>
           <Text>region:{rowData.region}</Text>
           <Text>description:{rowData.description}</Text>
-          <Text>-----------------------------------------</Text>
 
         </View>
 
@@ -157,28 +156,7 @@ export default class App extends Component{
     return (
       <View style={styles.container}>
         {flashMessage}
-        <Text style={ styles.title }> Welcome User </Text>
         <Text style={ styles.text }> Your new token is { this.state.accessToken }</Text>
-
-        <ListView
-           dataSource={ this.state.dataSource }
-           renderRow={ (rowData)=>
-             <ListItem button onPress={()=> { this.goProducts(rowData) } }>
-             <View>
-               <Text>name:{rowData.name}</Text>
-               <Image
-                 source={{uri: 'http://2b1f8912.ngrok.io' + rowData.image.url}}
-               />
-
-               <Text>term:{rowData.term}</Text>
-               <Text>region:{rowData.region}</Text>
-               <Text>description:{rowData.description}</Text>
-
-             </View>
-             </ListItem>
-           }
-         />
-
 
         <TouchableHighlight onPress={ this.onLogout.bind(this) } style={ styles.button }>
           <Text style={ styles.buttonText }>
@@ -192,7 +170,29 @@ export default class App extends Component{
           </Text>
         </TouchableHighlight>
 
+        <ListView
+           dataSource={ this.state.dataSource }
+           renderRow={ (rowData)=>
+             <ListItem button onPress={()=> { this.goProducts(rowData) } }>
+             <View>
+               <Text>name:{rowData.name}</Text>
+               <Image
+                 style={{width: 200, height: 100}}
+                 source={{uri: 'http://localhost:3000' + rowData.image.url}}
+               />
+
+               <Text>term:{rowData.term}</Text>
+               <Text>region:{rowData.region}</Text>
+               <Text>description:{rowData.description}</Text>
+
+             </View>
+             </ListItem>
+           }
+         />
+
       </View>
+
+
     );
   }
 }

@@ -22,6 +22,7 @@ export default class Add_product extends Component{
       image: "",
       term: "",
       region: "",
+      description: "",
     }
   }
 
@@ -36,6 +37,7 @@ export default class Add_product extends Component{
     });
     formData.append('term', this.state.term);
     formData.append('region', this.state.region);
+    formData.append('description', this.state.description);
     formData.append('access_token', access_token);
     console.log(formData);
     fetch('http://localhost:3000/api/v1/products',{
@@ -63,6 +65,10 @@ export default class Add_product extends Component{
       <TextInput
         onChangeText={ (text) => this.setState({ region: text })}
         style={ styles.input } placeholder="region">
+      </TextInput>
+      <TextInput
+        onChangeText={ (text) => this.setState({ description: text })}
+        style={ styles.input } placeholder="description">
       </TextInput>
 
       <TouchableHighlight onPress={ this.upload_product.bind(this)} style={ styles.button}>
