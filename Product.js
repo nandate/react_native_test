@@ -28,7 +28,7 @@ export default class Product extends Component{
 
     this.state = {
       accessToken: "",
-      products_id: this.props.id,
+      products_id: this.props.product_id,
       showProgress: false,
       id: "",
       name: "",
@@ -40,13 +40,11 @@ export default class Product extends Component{
   }
 
   componentWillMount(){
-    console.log(this.props.id);
-    console.log(this.state.id);
     this.fetchProductData();
   }
 
   async fetchProductData(){
-    let product_id = this.props.id;
+    let product_id = this.props.product_id;
     try{
       let response = await fetch('http://localhost:3000/api/v1/products/' + product_id);
       let res = await response.text();
@@ -87,11 +85,12 @@ export default class Product extends Component{
 
   render(){
     return(
-      <View>
-        <Text>{this.state.product_id}</Text>
-        <Text>{this.state.id}</Text>
+      <View style={ styles.container }>
         <Text>{this.state.name}</Text>
-        <Text>{this.state.image_url}</Text>
+        <Image
+          style={{width: 300, height: 200}}
+          source={{uri: 'http://localhost:3000' + this.state.image_url}}
+        />
         <Text>{this.state.term}</Text>
         <Text>{this.state.region}</Text>
         <Text>{this.state.description}</Text>

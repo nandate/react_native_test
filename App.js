@@ -37,7 +37,6 @@ export default class App extends Component{
       showProgress: false,
       accessToken: "",
       dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
-      id: ""
     }
 
   }
@@ -123,9 +122,7 @@ export default class App extends Component{
   }
 
   goProducts(rowData){
-    this.setState({ id: rowData.id });
-    console.log(this.state.id);
-    Actions.Product();
+    Actions.Product({product_id: rowData.id});
   }
 
   renderRow(rowData){
