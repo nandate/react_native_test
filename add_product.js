@@ -6,10 +6,17 @@ import {
   AsyncStorage,
   Text,
   View,
+  Button
 } from 'react-native';
+
 import {
   Actions,
 } from 'react-native-router-flux';
+
+import {
+  ImagePicker
+} from 'react-native-image-picker'
+
 
 
 const ACCESS_TOKEN = 'access_token';
@@ -51,6 +58,12 @@ export default class Add_product extends Component{
     });
   }
 
+  pickImage(){
+    ImagePicker.launchImageLibrary(options, (response)  => {
+  // Same code as in above section!
+    });
+  }
+
   render(){
     return(
       <View style={ styles.container }>
@@ -70,10 +83,13 @@ export default class Add_product extends Component{
         onChangeText={ (text) => this.setState({ description: text })}
         style={ styles.input } placeholder="description">
       </TextInput>
+      <Button
+        onPress={ this.pickImage.bind(this) }
+        title="カメラロールから写真を選択"/>
 
       <TouchableHighlight onPress={ this.upload_product.bind(this)} style={ styles.button}>
         <Text style={ styles.buttonText}>
-          Register
+          出品
         </Text>
       </TouchableHighlight>
       </View>

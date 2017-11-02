@@ -87,40 +87,6 @@ export default class App extends Component{
     }
   }
 
-  async deleteToken(){
-    try{
-      await AsyncStorage.removeItem(ACCESS_TOKEN);
-      Actions.Root();
-    }catch(error){
-      console.log("Something went wrong");
-    }
-  }
-
-  onLogout(){
-    this.setState({showProgress: true});
-    this.deleteToken();
-  }
-
-
-  async onDelete(){
-    let access_token = this.state.accessToken;
-    try{
-      let response = await fetch('http://localhost:3000/api/v1/users/' + access_token,{
-        method: 'DELETE'
-      });
-      let res = await response.text();
-      if(response.status >= 200 && response.status < 300){
-        console.log("Success sir: " + res);
-        Actions.Root();
-      }else{
-        let error = res;
-        throw error;
-      }
-    }catch(error){
-      console.log("error: " + error);
-    }
-  }
-
   goProducts(rowData){
     Actions.Product({product_id: rowData.id});
   }
@@ -151,15 +117,9 @@ export default class App extends Component{
     }
 
     return (
-      <View style={styles.container}>
+      <View style={ styles.container }>
         {flashMessage}
-        <Text style={ styles.text }> Your new token is { this.state.accessToken }</Text>
-
-        <TouchableHighlight onPress={ this.onLogout.bind(this) } style={ styles.button }>
-          <Text style={ styles.buttonText }>
-            Logout
-          </Text>
-        </TouchableHighlight>
+        <Text style={ styles.title }>一覧</Text>
 
         <TouchableHighlight onPress={ Actions.Mypage } style={styles.button}>
           <Text style={ styles.buttonText }>
@@ -168,6 +128,7 @@ export default class App extends Component{
         </TouchableHighlight>
 
         <ListView
+           style = { styles.listview }
            dataSource={ this.state.dataSource }
            renderRow={ (rowData)=>
              <ListItem button onPress={()=> { this.goProducts(rowData) } }>
@@ -231,5 +192,8 @@ const styles = StyleSheet.create({
   },
   loader: {
     marginTop: 20
+  },
+  listview: {
+    alignSelf: "stretch"
   }
 });

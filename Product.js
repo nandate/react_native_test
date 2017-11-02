@@ -87,13 +87,13 @@ export default class Product extends Component{
   render(){
     return(
       <View style={ styles.container }>
-        <Text>{this.state.name}</Text>
+        <Text>name: {this.state.name}</Text>
         <Image
           style={{width: 300, height: 200}}
           source={{uri: 'http://localhost:3000' + this.state.image.url}}
         />
-        <Text>{this.state.term}</Text>
-        <Text>{this.state.region}</Text>
+        <Text>term: {this.state.term}</Text>
+        <Text>region: {this.state.region}</Text>
         <Text>{this.state.description}</Text>
 
         <TouchableHighlight style={styles.button}>
