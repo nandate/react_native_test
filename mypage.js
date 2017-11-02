@@ -114,7 +114,7 @@ export default class Mypage extends Component{
           <ListView tabLabel="借りた物"
             dataSource={ this.state.borrowed_dataSource }
             renderRow={ (rowData) =>
-              <ListItem>
+              <ListItem onPress={ ()=> { Actions.Product({product_id: rowData.id}) } }>
                 <View>
                   <Text>name:{rowData.name}</Text>
                   <Image
@@ -130,24 +130,24 @@ export default class Mypage extends Component{
               }
             />
 
-            <ListView tabLabel="貸した物"
-            dataSource={ this.state.sold_dataSource }
-              renderRow={ (rowData) =>
-                <ListItem>
-                  <View>
-                    <Text>name:{rowData.name}</Text>
-                    <Image
-                      style={{width: 200, height: 100}}
-                      source={{uri: 'http://localhost:3000' + rowData.image.url}}
-                    />
+          <ListView tabLabel="貸した物"
+          dataSource={ this.state.sold_dataSource }
+            renderRow={ (rowData) =>
+              <ListItem onPress={ ()=> { Actions.Product({product_id: rowData.id}) } }>
+                <View>
+                  <Text>name:{rowData.name}</Text>
+                  <Image
+                    style={{width: 200, height: 100}}
+                    source={{uri: 'http://localhost:3000' + rowData.image.url}}
+                  />
 
-                    <Text>term:{rowData.term}</Text>
-                    <Text>region:{rowData.region}</Text>
-                    <Text>description:{rowData.description}</Text>
-                  </View>
-                </ListItem>
-                }
-              />
+                  <Text>term:{rowData.term}</Text>
+                  <Text>region:{rowData.region}</Text>
+                  <Text>description:{rowData.description}</Text>
+                </View>
+              </ListItem>
+              }
+            />
         </ScrollableTabView>
 
         <TouchableHighlight onPress={ Actions.Add_product } style={styles.button}>

@@ -121,12 +121,6 @@ export default class App extends Component{
         {flashMessage}
         <Text style={ styles.title }>一覧</Text>
 
-        <TouchableHighlight onPress={ Actions.Mypage } style={styles.button}>
-          <Text style={ styles.buttonText }>
-            Mypage
-          </Text>
-        </TouchableHighlight>
-
         <ListView
            style = { styles.listview }
            dataSource={ this.state.dataSource }

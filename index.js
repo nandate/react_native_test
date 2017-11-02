@@ -28,7 +28,7 @@ export default class react_proto extends Component{
           <Scene key="Root" initial component={Root} title="root" />
           <Scene key="Login" component={Login} title="Login" />
           <Scene key="Register" component={Register} title="Register" />
-          <Scene key="App" component={App} title="Home" />
+          <Scene key="App" component={App} title="Home" onRight={ () => Actions.Mypage() } rightTitle="マイページ"/>
           <Scene key="Mypage" component={Mypage} title="Mypage" />
           <Scene key="Add_product" component={Add_product} title="add product" />
           <Scene key="Product" component={Product} />
