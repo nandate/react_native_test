@@ -13,13 +13,21 @@ import {
   Actions,
 } from 'react-native-router-flux';
 
-import {
-  ImagePicker
-} from 'react-native-image-picker'
+import ImagePicker from 'react-native-image-picker'
 
 
 
 const ACCESS_TOKEN = 'access_token';
+let options = {
+  title: 'Select Avatar',
+  customButtons: [
+    {name: 'fb', title: 'Choose Photo from Facebook'},
+  ],
+  storageOptions: {
+    skipBackup: true,
+    path: 'images'
+  }
+};
 
 export default class Add_product extends Component{
   constructor(props){

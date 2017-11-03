@@ -20,5 +20,9 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>NSCameraUsageDescription</key>
+	<string>カメラの使用を許可しますか？</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>フォトライブラリーの使用を許可しますか？</string>
 </dict>
 </plist>
