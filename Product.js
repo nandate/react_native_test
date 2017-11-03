@@ -101,6 +101,14 @@ export default class Product extends Component{
             rent
           </Text>
         </TouchableHighlight>
+
+        <TouchableHighlight style={styles.button} onPress={ Actions.QR }>
+          <Text style={ styles.buttonText }>
+            QRcode
+          </Text>
+        </TouchableHighlight>
+
+
       </View>
     );
   }

@@ -19,6 +19,8 @@ import Register from './register';
 import Mypage from './mypage';
 import Add_product from './add_product';
 import Product from './Product';
+import qr from './qr';
+
 
 export default class react_proto extends Component{
   render(){
@@ -32,6 +34,7 @@ export default class react_proto extends Component{
           <Scene key="Mypage" component={Mypage} title="Mypage" />
           <Scene key="Add_product" component={Add_product} title="add product" />
           <Scene key="Product" component={Product} />
+          <Scene key="qr" component={qr} />
         </Scene>
       </Router>
     )

@@ -152,13 +152,13 @@ export default class Mypage extends Component{
 
         <TouchableHighlight onPress={ Actions.Add_product } style={styles.button}>
           <Text style={ styles.buttonText }>
-            Add_product
+            出品
           </Text>
         </TouchableHighlight>
 
         <TouchableHighlight onPress={ this.onLogout.bind(this) } style={ styles.button }>
           <Text style={ styles.buttonText }>
-            Logout
+            ログアウト
           </Text>
         </TouchableHighlight>
 
