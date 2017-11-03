@@ -102,7 +102,7 @@ export default class Product extends Component{
           </Text>
         </TouchableHighlight>
 
-        <TouchableHighlight style={styles.button} onPress={ Actions.QR }>
+        <TouchableHighlight style={styles.button} onPress={ ()=> { Actions.qr({name: this.state.name}) }}>
           <Text style={ styles.buttonText }>
             QRcode
           </Text>
