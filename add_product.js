@@ -34,7 +34,7 @@ export default class Add_product extends Component{
     super(props);
     this.state = {
       name: "",
-      image: "",
+      image_uri: "",
       term: "",
       region: "",
       description: "",
@@ -46,7 +46,7 @@ export default class Add_product extends Component{
     let access_token = await AsyncStorage.getItem(ACCESS_TOKEN)
     formData.append('name', this.state.name);
     formData.append('image', {
-      uri: 'https://firebasestorage.googleapis.com/v0/b/mikke-d5d0a.appspot.com/o/141select_logo.png?alt=media&token=034612a9-9a26-412c-a9cc-07915de78ad5',
+      uri: this.state.image_uri,
       type: 'image/png',
       name: 'image.png'
     });
@@ -68,7 +68,8 @@ export default class Add_product extends Component{
 
   pickImage(){
     ImagePicker.launchImageLibrary(options, (response)  => {
-  // Same code as in above section!
+      let source = response.uri;
+      this.setState({image_uri: source});
     });
   }
 
